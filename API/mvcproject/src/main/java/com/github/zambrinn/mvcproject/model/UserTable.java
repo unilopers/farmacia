@@ -2,11 +2,9 @@ package com.github.zambrinn.mvcproject.model;
 
 import com.github.zambrinn.mvcproject.model.enums.UserRole;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -15,6 +13,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class UserTable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -34,8 +33,11 @@ public class UserTable {
 
     @Column(name = "user_role", nullable = false)
     @Enumerated(EnumType.STRING)
-    UserRole role;
+    private UserRole role;
 
     @Column(name = "isActive", nullable = false)
     boolean isActive = true;
+
+    @Column(name = "created_at", nullable = true)
+    LocalDateTime createdAt;
 }
