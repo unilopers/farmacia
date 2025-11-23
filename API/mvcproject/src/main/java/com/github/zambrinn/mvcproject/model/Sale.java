@@ -5,6 +5,8 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -25,16 +27,15 @@ public class Sale {
     @Column(name = "total_amount", nullable = false)
     private BigDecimal totalAmount;
 
-//    @ManyToOne
-//    @JoinColumn(name = "customer_id")
-//    private Customer customer;
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
     @ManyToOne
     @JoinColumn(name = "seller_id", nullable = false)
     private UserTable seller;
 
-    @ManyToOne
-    @JoinColumn(name = "saleItem_id", nullable = false)
-    private SaleItem saleItem;
-
+    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<SaleItem> items = new ArrayList<>();
 }
