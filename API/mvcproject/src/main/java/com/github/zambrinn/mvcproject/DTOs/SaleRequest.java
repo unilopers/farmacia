@@ -13,15 +13,11 @@ public record SaleRequest(
 
         @NotBlank(message = "the customer ID must not be null")
         UUID customerId,
+        UUID sellerId,
 
         @NotEmpty (message = "the item list must not be null")
         @Valid
         List<SaleItemRequest> items
-
-
-
-
-
 
 ) {
     public record SaleItemRequest(
@@ -32,7 +28,6 @@ public record SaleRequest(
             @Positive(message = "Quantity must be positive")
             Integer quantity
     ) {}
-
 
 
 }
