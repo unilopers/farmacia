@@ -38,4 +38,8 @@ public class SaleItem {
         }
         this.quantity = quantity;
     }
+
+    @ManyToOne
+    @JoinColumn(name = "sale_id", nullable = false)
+    private Sale sale;
 }
