@@ -1,22 +1,27 @@
 package com.github.zambrinn.mvcproject.service;
 
-import com.github.zambrinn.mvcproject.DTOs.CustomerRequest;
-import com.github.zambrinn.mvcproject.DTOs.CustomerResponse;
-import com.github.zambrinn.mvcproject.model.Customer;
-import com.github.zambrinn.mvcproject.repository.CustomerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.github.zambrinn.mvcproject.DTOs.CustomerRequest;
+import com.github.zambrinn.mvcproject.DTOs.CustomerResponse;
+import com.github.zambrinn.mvcproject.model.Address;
+import com.github.zambrinn.mvcproject.model.Customer;
+import com.github.zambrinn.mvcproject.repository.AddressRepository;
+import com.github.zambrinn.mvcproject.repository.CustomerRepository;
 
 @Service
 public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;
 
     public CustomerResponse createCustomer(CustomerRequest request) {
         Customer customer = Customer.builder()
@@ -29,6 +34,18 @@ public class CustomerService {
                 .build();
 
         Customer savedCustomer = customerRepository.save(customer);
+
+        if (request.address() != null) {
+            Address address = Address.builder()
+                    .street(request.address().street())
+                    .number(request.address().number())
+                    .city(request.address().city())
+                    .state(request.address().state())
+                    .customer(savedCustomer)
+                    .build();
+            
+            addressRepository.save(address);
+        }
 
         return convertToDTO(savedCustomer);
     }
@@ -50,6 +67,19 @@ public class CustomerService {
         foundCustomer.setPhone(request.phone());
 
         Customer updatedCustomer = customerRepository.save(foundCustomer);
+
+        if (request.address() != null) {
+            Address address = Address.builder()
+                    .street(request.address().street())
+                    .number(request.address().number())
+                    .city(request.address().city())
+                    .state(request.address().state())
+                    .customer(updatedCustomer)
+                    .build();
+            
+            addressRepository.save(address);
+        }
+
         return convertToDTO(updatedCustomer);
     }
 
@@ -62,10 +92,24 @@ public class CustomerService {
 
 
     public CustomerResponse convertToDTO(Customer customer) {
+        List<CustomerResponse.AddressDTO> addressDTOs = customer.getAddresses().stream()
+                .map(address -> new CustomerResponse.AddressDTO(
+                        address.getId(),
+                        address.getStreet(),
+                        address.getState(),
+                        address.getCity(),
+                        address.getNumber()
+                ))
+                .collect(Collectors.toList());
+
         return new CustomerResponse(
                 customer.getId(),
+                customer.getName(),
+                customer.getCpf(),
                 customer.getEmail(),
-                customer.getCreatedAt()
+                customer.getPhone(),
+                customer.getCreatedAt(),
+                addressDTOs
         );
     }
 
