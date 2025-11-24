@@ -36,4 +36,7 @@ public class Address {
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
+
+    @Column(name = "adress_id", nullable = true)
+    Address address;
 }
