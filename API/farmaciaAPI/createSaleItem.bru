@@ -1,0 +1,15 @@
+meta {
+  name: createSaleItem
+  type: http
+  seq: 12
+}
+
+post {
+  url: http://localhost:8080/api/v1/sales/{saleId}/items
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
