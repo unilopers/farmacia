@@ -3,6 +3,7 @@ package com.github.zambrinn.mvcproject.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -25,7 +26,7 @@ public class Product {
     private String description;
 
     @Column(name = "sell_price", nullable = false)
-    private double sellPrice;
+    private BigDecimal sellPrice;
 
     @Column(name = "category")
     private String category;

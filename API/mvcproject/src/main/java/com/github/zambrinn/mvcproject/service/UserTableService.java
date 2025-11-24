@@ -68,7 +68,8 @@ public class UserTableService {
                 userTable.getId(),
                 userTable.getName(),
                 userTable.getEmail(),
-                userTable.getCreatedAt()
+                userTable.getCreatedAt(),
+                userTable.getRole()
         );
     }
 }

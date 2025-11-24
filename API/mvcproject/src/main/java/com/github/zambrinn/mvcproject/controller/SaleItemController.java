@@ -12,37 +12,36 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/sales")
+@RequestMapping("/api/v1/sales/{saleId}/items") 
 public class SaleItemController {
 
     @Autowired
     private SaleItemService saleItemService;
 
-    @GetMapping("/{saleId}/items")
+    @GetMapping     
     public ResponseEntity<List<SaleItemResponse>> getSaleItems(@PathVariable UUID saleId) {
         return ResponseEntity.ok(saleItemService.getSaleItems(saleId));
     }
-
-    @PostMapping("/{saleId}/items")
+    @PostMapping 
     public ResponseEntity<SaleItemResponse> addItemToSale(
             @PathVariable UUID saleId,
             @Valid @RequestBody SaleItemRequest request) {
         return ResponseEntity.ok(saleItemService.createSaleItem(saleId, request));
     }
 
-    @PutMapping("/{saleId}/items/{itemId}")
+    @PutMapping("/{itemId}") 
     public ResponseEntity<SaleItemResponse> updateItemInSale(
-            @PathVariable UUID saleId,
+            @PathVariable UUID saleId, 
             @PathVariable UUID itemId,
             @Valid @RequestBody SaleItemRequest request) {
         return ResponseEntity.ok(saleItemService.updateSaleItem(saleId, itemId, request));
     }
 
-    @DeleteMapping("/{saleId}/items/{itemId}")
+    @DeleteMapping("/{itemId}") 
     public ResponseEntity<Void> removeItemFromSale(
             @PathVariable UUID saleId,
             @PathVariable UUID itemId) {
         saleItemService.removeItemFromSale(saleId, itemId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }

@@ -1,5 +1,6 @@
 package com.github.zambrinn.mvcproject.DTOs;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -8,7 +9,7 @@ public record ProductResponse(
         String productName,
         String description,
         String category,
-        double sellPice,
+        BigDecimal sellPrice,
         int stockQuantity,
         LocalDateTime createdAt
 ) {
