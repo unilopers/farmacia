@@ -7,6 +7,7 @@ import com.github.zambrinn.mvcproject.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -22,7 +23,7 @@ public class ProductService {
                 .productName(request.productName())
                 .description(request.description())
                 .category(request.category())
-                .sellPrice(request.sellPrice())
+                .sellPrice(BigDecimal.valueOf(request.sellPrice()))
                 .stockquantity(request.stockQuantity())
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -45,7 +46,7 @@ public class ProductService {
         foundProduct.setProductName(request.productName());
         foundProduct.setDescription(request.description());
         foundProduct.setCategory(request.category());
-        foundProduct.setSellPrice(request.sellPrice());
+        foundProduct.setSellPrice(BigDecimal.valueOf(request.sellPrice()));
         foundProduct.setStockquantity(request.stockQuantity());
         foundProduct.setCreatedAt(LocalDateTime.now());
         Product updatedProduct = productRepository.save(foundProduct);
