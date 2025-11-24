@@ -1,0 +1,26 @@
+meta {
+  name: updateProduct
+  type: http
+  seq: 6
+}
+
+put {
+  url: http://localhost:8080/api/v1/Product/6e713569-f798-4780-b7d1-efcc1fc854a6
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "productName": "Ibuprofeno 5g",
+    "description": "Remédio de cólica",
+    "category": "MEDICAMENTO",
+    "sellPrice": 28.90,
+    "stockQuantity": 40
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

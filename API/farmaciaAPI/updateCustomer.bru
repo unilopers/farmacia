@@ -1,0 +1,26 @@
+meta {
+  name: updateCustomer
+  type: http
+  seq: 9
+}
+
+put {
+  url: http://localhost:8080/api/v1/Customer/b2b84452-0756-4b84-bdd3-191887f7c9af
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "João Silva Santos",
+    "cpf": "123.456.789-10",
+    "email": "joao.santos@email.com",
+    "passwordHash": "12345",
+    "phone": "(11) 99999-8888"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

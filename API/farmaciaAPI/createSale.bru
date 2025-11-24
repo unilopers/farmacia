@@ -1,0 +1,33 @@
+meta {
+  name: createSale
+  type: http
+  seq: 10
+}
+
+post {
+  url: http://localhost:8080/api/v1/sale
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "customerId": "f0d23f21-4fad-48b2-924d-bb21a74f3eef",
+    "sellerId": "49361756-9c94-437a-94a8-a46e41f58fc8",
+    "items": [
+      {
+        "productId": "2b57461b-1f0e-4410-a399-d603454b7b3c",
+        "quantity": 2
+      },
+      {
+        "productId": "a14d0ce7-df69-4466-8075-7812d8e3053c",
+        "quantity": 1
+      }
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

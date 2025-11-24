@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "farmaciaAPI",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

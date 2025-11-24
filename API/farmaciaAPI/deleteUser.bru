@@ -1,0 +1,16 @@
+meta {
+  name: deleteUser
+  type: http
+  seq: 4
+}
+
+delete {
+  url: http://localhost:8080/api/v1/UserTable/5bd64ba7-dd73-4b66-8bab-19be71d7a69e
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
