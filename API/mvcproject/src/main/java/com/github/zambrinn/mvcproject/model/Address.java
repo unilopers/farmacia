@@ -1,10 +1,9 @@
 package com.github.zambrinn.mvcproject.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.util.UUID;
 
 @Entity
 @Table(name = "address")
@@ -12,6 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -31,10 +31,9 @@ public class Address {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserTable user;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
-
 }
