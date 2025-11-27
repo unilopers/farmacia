@@ -1,22 +1,28 @@
 package com.github.zambrinn.mvcproject.service;
 
-import com.github.zambrinn.mvcproject.DTOs.SaleRequest;
-import com.github.zambrinn.mvcproject.DTOs.SaleResponse;
-import com.github.zambrinn.mvcproject.model.*;
-import com.github.zambrinn.mvcproject.repository.CustomerRepository;
-import com.github.zambrinn.mvcproject.repository.ProductRepository;
-import com.github.zambrinn.mvcproject.repository.SaleRepository;
-import com.github.zambrinn.mvcproject.repository.UserTableRepository;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.github.zambrinn.mvcproject.DTOs.SaleRequest;
+import com.github.zambrinn.mvcproject.DTOs.SaleResponse;
+import com.github.zambrinn.mvcproject.model.Customer;
+import com.github.zambrinn.mvcproject.model.Product;
+import com.github.zambrinn.mvcproject.model.Sale;
+import com.github.zambrinn.mvcproject.model.SaleItem;
+import com.github.zambrinn.mvcproject.model.UserTable;
+import com.github.zambrinn.mvcproject.repository.CustomerRepository;
+import com.github.zambrinn.mvcproject.repository.ProductRepository;
+import com.github.zambrinn.mvcproject.repository.SaleRepository;
+import com.github.zambrinn.mvcproject.repository.UserTableRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class SaleService {
@@ -171,7 +177,9 @@ public class SaleService {
         return new SaleResponse(
                 sale.getId(),
                 sale.getCustomer() != null ? sale.getCustomer().getId() : null,
+                sale.getCustomer() != null ? sale.getCustomer().getName() : null,
                 sale.getSeller().getId(),
+                sale.getSeller().getName(),
                 itemDTOs,
                 sale.getSaleDate(),
                 sale.getTotalAmount()
