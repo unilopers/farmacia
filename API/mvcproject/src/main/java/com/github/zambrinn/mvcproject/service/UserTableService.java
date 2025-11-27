@@ -10,13 +10,18 @@ import org.springframework.stereotype.Service;
 
 import com.github.zambrinn.mvcproject.DTOs.UserTableRequest;
 import com.github.zambrinn.mvcproject.DTOs.UserTableResponse;
+import com.github.zambrinn.mvcproject.model.Address;
 import com.github.zambrinn.mvcproject.model.UserTable;
+import com.github.zambrinn.mvcproject.repository.AddressRepository;
 import com.github.zambrinn.mvcproject.repository.UserTableRepository;
 
 @Service
 public class UserTableService {
     @Autowired
     private UserTableRepository userTableRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;
 
     public UserTableResponse createUser(UserTableRequest request) {
         // Método de criação de usuário, o retorno do método é a resposta que vamos enviar
@@ -25,13 +30,27 @@ public class UserTableService {
                 .name(request.name())
                 .cpf(request.cpf())
                 .email(request.email())
-                .passwordHash(request.password_hash())
+                .passwordHash(request.passwordHash())
                 .role(request.role())
                 .createdAt(LocalDateTime.now())
                 .build();
 
         UserTable savedUser = userTableRepository.save(user); // Salvo em uma variável o usuário salvo depois de
         // puxar do repositório o método de salvar
+
+        // Se o request tem endereço, cria o endereço e vincula ao usuário
+        if (request.address() != null) {
+            Address address = Address.builder()
+                    .street(request.address().street())
+                    .number(request.address().number())
+                    .city(request.address().city())
+                    .state(request.address().state())
+                    .user(savedUser)
+                    .build();
+            
+            addressRepository.save(address);
+        }
+
         return convertToDto(savedUser); // retorno o usuário convertido em DTO
     }
 
@@ -49,7 +68,7 @@ public class UserTableService {
         foundUser.setEmail(request.email());
         foundUser.setCpf(request.cpf());
         foundUser.setName(request.name());
-        foundUser.setPasswordHash(request.password_hash());
+        foundUser.setPasswordHash(request.passwordHash());
         foundUser.setActive(foundUser.isActive());
 
         UserTable updatedUser = userTableRepository.save(foundUser);
@@ -64,12 +83,24 @@ public class UserTableService {
     }
 
     public UserTableResponse convertToDto(UserTable userTable) {
+        // Converte os endereços do usuário para DTOs
+        List<UserTableResponse.AddressDTO> addressDTOs = userTable.getAddresses().stream()
+                .map(address -> new UserTableResponse.AddressDTO(
+                        address.getId(),
+                        address.getStreet(),
+                        address.getNumber(),
+                        address.getCity(),
+                        address.getState()
+                ))
+                .collect(Collectors.toList());
+
         return new UserTableResponse(
                 userTable.getId(),
                 userTable.getName(),
                 userTable.getEmail(),
                 userTable.getCreatedAt(),
-                userTable.getRole()
+                userTable.getRole(),
+                addressDTOs
         );
     }
 }
