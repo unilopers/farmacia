@@ -25,7 +25,7 @@ public class UserTable {
     @Column(name = "user_email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "password_hash", nullable = false)
+    @Column(name = "passwordHash", nullable = false)
     private String passwordHash;
 
     @Column(name = "cpf", nullable = false, unique = true)
@@ -40,4 +40,8 @@ public class UserTable {
 
     @Column(name = "created_at", nullable = true)
     LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private java.util.List<Address> addresses = new java.util.ArrayList<>();
 }
