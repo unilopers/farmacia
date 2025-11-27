@@ -2,6 +2,7 @@ package com.github.zambrinn.mvcproject.DTOs;
 
 import com.github.zambrinn.mvcproject.model.enums.UserRole;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 
 public record UserTableRequest(
@@ -9,7 +10,7 @@ public record UserTableRequest(
         String name,
 
         @NotBlank(message = "The password must not be null")
-        String password_hash,
+        String passwordHash,
 
         @NotBlank(message = "The user email must not be null")
         String email,
@@ -17,6 +18,9 @@ public record UserTableRequest(
         @NotBlank(message = "The user cpf must not be null")
         String cpf,
 
-        UserRole role
+        UserRole role,
+        
+        @Valid
+        AddressRequest address  // Opcional
 ) {
 }
